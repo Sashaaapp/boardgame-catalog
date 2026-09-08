@@ -7,10 +7,38 @@
     <link rel="stylesheet" href="css/boardgame-catalog.css">
 </head>
 <body>
-        <!--Шапка з навігацією та пошуком-->
+<!--Шапка з навігацією та пошуком-->
+    <header>
+        <h1>Каталог настільних ігор</h1>
+        <nav>
+            <a href="#category_1">Категорія 1</a>
+            <a href="#category_2">Категорія 2</a>
+        </nav>
+    </header>
+
+    <main>
         <!--Блок фільтрів-->
+        <section>
+            <h2>Фільтри</h2>
+            <form action="">
+                <label for="filter_1"></label>
+                <input type="text" name="filter_1" id="filter_1">
+            </form>
+        </section>
         <!--Cписок карток ігор-->
-        <!--Підвал-->
-        <script src="js/boardgame-catalog.js"></script>
+        <section>
+            <h2>Ігри</h2>
+            <article>
+                <h3>Гра 1</h3>
+                <img src="" alt="Game preview">
+            </article>
+        </section>
+    </main>
+<!--Підвал-->
+    <footer>
+        <p>Погорілий Олександр Олександрович ІП-53</p>
+    </footer>
+
+    <script src="js/boardgame-catalog.js"></script>
 </body>
 </html>
