@@ -1,0 +1,64 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+:root {
+    --primary-purple: #5e2ca5;
+    --primary-teal: #00b4d8;
+    --primary-yellow: #ffd166;
+    --text-dark: #222222;
+}
+
+body {
+    margin: 0;
+    font-family: system-ui, sans-serif;
+    line-height: 1.5;
+    color: var(--text-dark);
+}
+
+.header {
+    background-color: var(--primary-purple);
+    padding: 1rem 2rem;
+    color: #ffffff;
+}
+.header_title {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.8rem;
+}
+.header_nav {
+    font-weight: 600;
+    transition: color 0.2s ease;
+}
+.header_nav a:hover {
+    color: var(--primary-yellow);
+}
+.header_nav_a {
+    color: #ffffff;
+    margin-right: 1.25rem;
+}
+
+.main {
+    background-color: var(--primary-teal);
+    max-width: 1920px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+}
+
+.filters {
+    margin-bottom: 1rem;
+}
+
+.game_card {
+    margin-bottom: 1rem;
+}
+
+.filter_title {
+    margin: 0 auto;
+}
+
+.footer {
+    background-color: var(--primary-yellow);
+    padding: 1rem 2rem;
+    text-align: center;
+    font-size: 0.85rem;
+}
