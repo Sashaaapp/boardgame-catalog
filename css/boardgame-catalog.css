@@ -13,13 +13,16 @@ body {
     margin: 0;
     font-family: system-ui, sans-serif;
     line-height: 1.5;
+    font-size: 1rem;
     color: var(--text-dark);
+    background-color: var(--primary-teal);
 }
 
 .header {
     background-color: var(--primary-purple);
     padding: 1rem 2rem;
     color: #ffffff;
+    text-align: center;
 }
 .header_title {
     margin: 0 0 0.5rem 0;
@@ -29,32 +32,99 @@ body {
     font-weight: 600;
     transition: color 0.2s ease;
 }
-.header_nav a:hover {
-    color: var(--primary-yellow);
-}
+
 .header_nav_a {
     color: #ffffff;
     margin-right: 1.25rem;
+    text-decoration: none;
 }
 
+.header_nav a:hover {
+    color: var(--primary-yellow);
+}
+
+
 .main {
-    background-color: var(--primary-teal);
     max-width: 1920px;
     margin: 0 auto;
     padding: 2rem 1.5rem;
 }
 
-.filters {
-    margin-bottom: 1rem;
+.filters, .category_section {
+    margin-bottom: 2.5rem;
 }
-
-.game_card {
+.filters {
+    text-align: center;
+    /*display: grid;*/
     margin-bottom: 1rem;
 }
 
 .filter_title {
+    margin: 0 auto 0.5rem auto;
+}
+
+.filter_form {
+    margin: 0 auto;
+    padding: 1rem;
+    border-radius: 8px;
+    display: inline-block;
+}
+
+.filter_genre {
+    border: 1px solid var(--text-dark);
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+}
+
+.filter_input {
+    padding: 0.5rem 1rem;
+    outline: none;
+    border: 1px solid var(--primary-purple);
+    border-radius: 6px;
+    font-size: 1rem;
+}
+
+.category_section{
+    display: grid;
+}
+
+.category_title {
+    margin: 0 auto 0.5rem auto;
+}
+
+.game_grid {
+    display: flex;
+    align-items: stretch;
     margin: 0 auto;
 }
+
+.game_card {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--primary-yellow);
+    margin-right: 1rem;
+    margin-bottom: 1rem;
+    padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.game_card:hover {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+.game_title {
+    margin: 0.5rem;
+}
+
+.game_img {
+    max-width: 150px;
+    height: 200px;
+    object-fit: cover;
+    margin: auto;
+}
+
 
 .footer {
     background-color: var(--primary-yellow);
