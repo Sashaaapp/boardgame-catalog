@@ -11,6 +11,7 @@
 
 body {
     margin: 0;
+    padding: 0;
     font-family: system-ui, sans-serif;
     line-height: 1.5;
     font-size: 1rem;
@@ -18,24 +19,35 @@ body {
     background-color: var(--primary-teal);
 }
 
+img {
+    max-width: 100%;
+    height: auto;
+}
+
 .header {
+    display: flex;
     background-color: var(--primary-purple);
     padding: 1rem 2rem;
     color: #ffffff;
     text-align: center;
+    flex-direction: column;
+    gap: 8px;
 }
 .header_title {
-    margin: 0 0 0.5rem 0;
+    margin: 0;
     font-size: 1.8rem;
 }
 .header_nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin: 0 auto;
     font-weight: 600;
     transition: color 0.2s ease;
 }
 
 .header_nav_a {
     color: #ffffff;
-    margin-right: 1.25rem;
     text-decoration: none;
 }
 
@@ -55,7 +67,6 @@ body {
 }
 .filters {
     text-align: center;
-    /*display: grid;*/
     margin-bottom: 1rem;
 }
 
@@ -67,7 +78,9 @@ body {
     margin: 0 auto;
     padding: 1rem;
     border-radius: 8px;
-    display: inline-block;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .filter_genre {
@@ -93,17 +106,17 @@ body {
 }
 
 .game_grid {
-    display: flex;
-    align-items: stretch;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
     margin: 0 auto;
+    width: 100%;
 }
 
 .game_card {
     display: flex;
     flex-direction: column;
     background-color: var(--primary-yellow);
-    margin-right: 1rem;
-    margin-bottom: 1rem;
     padding: 0.5rem 0.5rem 0.5rem 0.5rem;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
@@ -115,7 +128,7 @@ body {
 }
 
 .game_title {
-    margin: 0.5rem;
+    margin: 0.5rem auto;
 }
 
 .game_img {
@@ -131,4 +144,33 @@ body {
     padding: 1rem 2rem;
     text-align: center;
     font-size: 0.85rem;
+}
+
+@media (min-width: 600px) {
+    .filter_form {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .header_nav {
+        flex-direction: row;
+    }
+
+    .game_grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .header {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .game_grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
 }
