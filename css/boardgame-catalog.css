@@ -3,20 +3,25 @@
 }
 
 :root {
-    --primary-purple: #5e2ca5;
-    --primary-teal: #00b4d8;
-    --primary-yellow: #ffd166;
+    --primary-bg: #f4f6f8;
+    --primary-dark: #2c3e50;
+    --accent-color: #e74c3c;
     --text-dark: #222222;
 }
 
 body {
     margin: 0;
     padding: 0;
-    font-family: system-ui, sans-serif;
-    line-height: 1.5;
+    font-family: 'Roboto', system-ui, sans-serif;
+    line-height: 1.6;
     font-size: 1rem;
-    color: var(--text-dark);
-    background-color: var(--primary-teal);
+    color: var(--primary-dark);
+    background-color: var(--primary-bg);
+}
+/*Грайливий, округлий шрифт додає приємну сімейну/дружню атмосферу настільних ігор*/
+h1, h2, h3 {
+    font-family: 'Nunito', cursive, sans-serif;
+    color: var(--primary-dark);
 }
 
 img {
@@ -26,38 +31,38 @@ img {
 
 .header {
     display: flex;
-    background-color: var(--primary-purple);
+    background-color: var(--primary-dark);
     padding: 1rem 2rem;
     color: #ffffff;
     text-align: center;
     flex-direction: column;
-    gap: 8px;
+    gap: 12px;
 }
 .header_title {
     margin: 0;
     font-size: 1.8rem;
+    color: #ffffff;
 }
 .header_nav {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
     margin: 0 auto;
-    font-weight: 600;
-    transition: color 0.2s ease;
+    font-weight: 500;
 }
 
 .header_nav_a {
     color: #ffffff;
+    transition: color 0.2s ease;
     text-decoration: none;
 }
 
 .header_nav a:hover {
-    color: var(--primary-yellow);
+    color: var(--accent-color);
 }
 
-
 .main {
-    max-width: 1920px;
+    max-width: 1280px;
     margin: 0 auto;
     padding: 2rem 1.5rem;
 }
@@ -65,6 +70,7 @@ img {
 .filters, .category_section {
     margin-bottom: 2.5rem;
 }
+
 .filters {
     text-align: center;
     margin-bottom: 1rem;
@@ -75,12 +81,59 @@ img {
 }
 
 .filter_form {
+    background-color: #ffffff;
     margin: 0 auto;
-    padding: 1rem;
-    border-radius: 8px;
+    padding: 1.5rem;
+    border-radius: 12px;
     display: flex;
     flex-direction: column;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
     gap: 10px;
+}
+
+.filter_label {
+    font-weight: 500;
+}
+
+.filter_input {
+    padding: 0.8rem 1rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-family: inherit;
+}
+
+.filter_button {
+    background-color: var(--accent-color);
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    min-width: 44px;
+    min-height: 44px;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.filter_button:hover {
+    background-color: #c0392b;
+    transform: scale(1.02);
+}
+
+.category_section{
+    display: grid;
+    margin-bottom: 3rem;
+}
+
+.category_title {
+    text-align: center;
+    font-size: 1.8rem;
+    border-bottom: 2px solid var(--accent-color);
+    display: inline-block;
+    padding-bottom: 0.3rem;
+    margin: 0 auto 0.5rem auto;
 }
 
 .filter_genre {
@@ -89,61 +142,62 @@ img {
     border-radius: 4px;
 }
 
-.filter_input {
-    padding: 0.5rem 1rem;
-    outline: none;
-    border: 1px solid var(--primary-purple);
-    border-radius: 6px;
-    font-size: 1rem;
-}
-
-.category_section{
-    display: grid;
-}
-
-.category_title {
-    margin: 0 auto 0.5rem auto;
-}
-
 .game_grid {
     display: grid;
     grid-template-columns: 1fr;
     gap: 1rem;
-    margin: 0 auto;
     width: 100%;
 }
 
+/*Щоб каталог було приємно гортати, для заголовків карток обрав приємний, приязний шрифт Nunito, а самі назви видів жирним. */
+/*Додатковим виділений бейдж, що надає додаткову інформацію про кількість гравців.*/
 .game_card {
     display: flex;
     flex-direction: column;
-    background-color: var(--primary-yellow);
-    padding: 0.5rem 0.5rem 0.5rem 0.5rem;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
     transition: box-shadow 0.3s ease, transform 0.3s ease;
+    align-items: center;
+    text-align: center;
+    padding: 0.5rem 0.5rem 0.5rem 0.5rem;
 }
 
 .game_card:hover {
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    transform: translateY(-5px);
 }
 
 .game_title {
-    margin: 0.5rem auto;
+    margin: 0 0 0.5rem 0;
+    font-size: 1.4rem;
+    font-weight: 800;
+}
+
+.player_badge {
+    background-color: var(--accent-color);
+    color: #ffffff;
+    font-size: 0.85rem;
+    font-weight: bold;
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    margin-bottom: 1rem;
+    display: inline-block;
 }
 
 .game_img {
-    max-width: 150px;
-    height: 200px;
+    max-width: 100%;
+    height: 220px;
     object-fit: cover;
-    margin: auto;
+    margin-bottom: 0.5rem;
 }
 
-
 .footer {
-    background-color: var(--primary-yellow);
-    padding: 1rem 2rem;
+    background-color: var(--primary-dark);
+    color: #ffffff;
+    padding: 1.5rem 2rem;
     text-align: center;
-    font-size: 0.85rem;
+    font-size: 0.9rem;
 }
 
 @media (min-width: 600px) {
