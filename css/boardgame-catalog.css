@@ -58,7 +58,7 @@ img {
 }
 
 .header_nav a:hover {
-    color: var(--accent-color);
+    color: #ffd166;
 }
 
 .main {
