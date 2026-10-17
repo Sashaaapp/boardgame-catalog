@@ -10,18 +10,22 @@ const games = [
 const fitsPlayers = (game, n) => n >= game.minPlayers && n <= game.maxPlayers;
 
 // Знаходження ігор, що підходять для заданої кількості гравців
-function playerCount(gamesArrey, targetPlayers){
+function playerCount(gamesArray, targetPlayers){
+    let count = 0;
 
-    for (i = 0; i < gamesArrey.length; i++) {
-        const currentGame = gamesArrey[i];
+    for (let i = 0; i < gamesArray.length; i++) {
+        const currentGame = gamesArray[i];
         // if else конструкція, з використанням функції fitsPlayers
         if (fitsPlayers(currentGame, targetPlayers)) {
-            console.log(gamesArrey[i]);
+            console.log(gamesArray[i]);
+            count++;
         }
         else {
             console.log(`${currentGame.title} не підходить за фільтром`);
         }
     }
+
+    console.log(`${count} - ігри, що підходять критеріям`);
 }
 
 console.log(fitsPlayers(games[0], 5));
