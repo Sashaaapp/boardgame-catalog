@@ -137,6 +137,13 @@ img {
     margin: 0 auto 0.5rem auto;
 }
 
+.games_in_category {
+    text-align: center;
+    font-size: 1.10rem;
+    font-weight: 800;
+    margin: 0 auto 0.8rem auto;
+}
+
 .filter_genre {
     border: 1px solid var(--text-dark);
     padding: 0.4rem 0.8rem;
