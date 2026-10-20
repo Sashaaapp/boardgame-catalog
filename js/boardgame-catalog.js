@@ -6,6 +6,7 @@ const games = [
     { title: "Catan", minPlayers: 3, maxPlayers: 4, image: "assets/img/KATANBoardGame.jpg" }
 ]
 
+// Додання контейнерів
 const listContainer = document.querySelector("#games-list");
 const countContainer = document.querySelector("#games-count");
 
@@ -36,7 +37,7 @@ console.log(fitsPlayers(games[0], 5));
 
 playerCount(games, 2);
 
-
+// Функція рендерингу секції з іграми
 function renderGames(games){
     listContainer.innerHTML = '';
     games.forEach(game => {
@@ -60,7 +61,10 @@ function renderGames(games){
         if (fitsPlayers(game, 4)) {
             card.classList.add('fits');
         }
-        card.append(title, players, img);
+        card.append(title);
+        card.append(players);
+        card.append(img);
+
         listContainer.append(card);
     })
     countContainer.textContent = `Кількість ігор у списку: ${games.length}`;
