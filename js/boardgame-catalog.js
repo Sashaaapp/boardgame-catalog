@@ -10,6 +10,11 @@ const games = [
 const listContainer = document.querySelector("#games-list");
 const countContainer = document.querySelector("#games-count");
 
+const staticPlaceholder = document.querySelector("#games-list .game_card");
+if (staticPlaceholder) {
+    staticPlaceholder.remove();
+}
+
 // Стрілкова функція, що перевіряє входження в діапазон гравців
 const fitsPlayers = (game, n) => n >= game.minPlayers && n <= game.maxPlayers;
 
@@ -40,11 +45,11 @@ playerCount(games, 2);
 // Функція рендерингу секції з іграми
 function renderGames(games){
     listContainer.innerHTML = '';
-    games.forEach(game => {
 
+    games.forEach(game => {
         const card = document.createElement('article');
         const title = document.createElement('h3');
-        const players = document.createElement('span');
+        const players = document.createElement('p');
         const img = document.createElement('img');
 
         title.textContent = game.title;
