@@ -10,6 +10,7 @@ const games = [
 const listContainer = document.querySelector("#games-list");
 const countContainer = document.querySelector("#games-count");
 
+// Видалення статичної карти-заглушки
 const staticPlaceholder = document.querySelector("#games-list .game_card");
 if (staticPlaceholder) {
     staticPlaceholder.remove();
