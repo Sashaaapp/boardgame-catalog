@@ -81,6 +81,25 @@ img {
     margin: 0 auto 0.5rem auto;
 }
 
+.form_group {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    gap: 4px;
+}
+
+.error_message {
+    width: 100%;
+    color: var(--accent-color);
+    font-weight: 700;
+    margin: 0.5rem 0 0 0;
+    font-size: 0.95rem;
+}
+
+.fits {
+    border: 2px solid #2e7d32;
+}
+
 .filter_form {
     background-color: #ffffff;
     margin: 0 auto;
@@ -116,6 +135,7 @@ img {
     min-width: 44px;
     min-height: 44px;
     transition: background-color 0.2s ease, transform 0.1s ease;
+    margin-top: 28px;
 }
 
 .filter_button:hover {
@@ -149,6 +169,8 @@ img {
     padding: 0.4rem 0.8rem;
     border-radius: 4px;
 }
+
+
 
 .game_grid {
     display: grid;

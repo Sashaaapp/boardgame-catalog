@@ -20,11 +20,47 @@
     <main class="main">
         <!--Блок фільтрів-->
         <section class="filters">
-            <h2 class="filter_title">Фільтри</h2>
-            <form class="filter_form" action="#" method="GET">
-                <label for="filter_genre">Введіть жанр гри:</label>
-                <input class="filter_input" type="text" name="filter_genre" id="filter_genre" placeholder="Приклад:Фентезі">
-                <button type="submit" class="filter_button">Застосувати</button>
+            <h2 class="filter_title">Фільтри та додавання ігор</h2>
+            <div class="filter_form">
+                <label class="filter_label" for="player-filter">Фільтр за кількістю гравців:</label>
+                <select class="filter_input" id="player-filter" name="player_filter">
+                    <option value="all">Усі ігри</option>
+                    <option value="1">1 гравець</option>
+                    <option value="2">2 гравці</option>
+                    <option value="3">3 гравці</option>
+                    <option value="4">4 гравці</option>
+                    <option value="5">5 гравців</option>
+                    <option value="6">6 гравців</option>
+                </select>
+            </div>
+            <form id="add-game-form" class="filter_form" action="#">
+                <div class="form_group">
+                    <label class="filter_label" for="game-title">Назва гри:</label>
+                    <input class="filter_input" type="text" id="game-title" name="title" placeholder="Напр. Дюна" required>
+                </div>
+
+                <div class="form_group">
+                    <label class="filter_label" for="min-players">Мін. гравців:</label>
+                    <input class="filter_input" type="number" id="min-players" name="minPlayers" min="1" max="20" placeholder="1" required>
+                </div>
+
+                <div class="form_group">
+                    <label class="filter_label" for="max-players">Макс. гравців:</label>
+                    <input class="filter_input" type="number" id="max-players" name="maxPlayers" min="1" max="20" placeholder="4" required>
+                </div>
+
+                <div class="form_group">
+                    <label class="filter_label" for="game-genre">Жанр:</label>
+                    <select class="filter_input" id="game-genre" name="genre" required>
+                        <option value="Стратегії">Стратегії</option>
+                        <option value="Фентезі">Фентезі</option>
+                        <option value="Сімейні">Сімейні</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="filter_button">Додати гру</button>
+                <!-- Текстовий елемент для виведення власної помилки валідації -->
+                <p id="form-error" class="error_message" aria-live="polite"></p>
             </form>
         </section>
 

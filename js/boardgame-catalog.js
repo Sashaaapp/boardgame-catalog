@@ -1,9 +1,9 @@
 // Масив ігор
 const games = [
-    { title: "Фростпанк", minPlayers:1, maxPlayers:4, image: "assets/img/FrostPunkBoardGame.jpg" },
-    { title: "Тераформування Марса", minPlayers: 1, maxPlayers: 5, image: "assets/img/TerraformingMars.jpg" },
-    { title: "Монополія", minPlayers: 2, maxPlayers: 6, image: "assets/img/MonopolyBoardGame.jpg" },
-    { title: "Catan", minPlayers: 3, maxPlayers: 4, image: "assets/img/KATANBoardGame.jpg" }
+    { title: "Фростпанк", minPlayers:1, maxPlayers:4, genre: "Стратегії", image: "assets/img/FrostPunkBoardGame.jpg" },
+    { title: "Тераформування Марса", minPlayers: 1, maxPlayers: 5, genre: "Стратегії", image: "assets/img/TerraformingMars.jpg" },
+    { title: "Монополія", minPlayers: 2, maxPlayers: 6, genre: "Стратегії", image: "assets/img/MonopolyBoardGame.jpg" },
+    { title: "Catan", minPlayers: 3, maxPlayers: 4, genre: "Стратегії", image: "assets/img/KATANBoardGame.jpg" }
 ]
 
 // Додання контейнерів
@@ -77,3 +77,53 @@ function renderGames(games){
 }
 
 renderGames(games);
+
+// Вибір елементів форми та фільтра
+const addGameForm = document.querySelector("#add-game-form");
+const titleInput = document.querySelector("#game-title");
+const minPlayersInput = document.querySelector("#min-players");
+const maxPlayersInput = document.querySelector("#max-players");
+const genreSelect = document.querySelector("#game-genre");
+const formError = document.querySelector("#form-error");
+const playerFilterSelect = document.querySelector("#player-filter");
+
+addGameForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    // Зчитуємо значення полів
+    const title = titleInput.value.trim();
+    const minPlayers = Number(minPlayersInput.value);
+    const maxPlayers = Number(maxPlayersInput.value);
+    const genre = genreSelect.value;
+
+    if (minPlayers > maxPlayers) {
+        formError.textContent = "Мінімальна кількість гравців не може перевищувати максимальну!";
+        return;
+    }
+    formError.textContent = "";
+
+    // Додаємо нову гру в масив
+    games.push({
+        title: title,
+        minPlayers: minPlayers,
+        maxPlayers: maxPlayers,
+        genre: genre,
+        image: "assets/img/FrostPunkBoardGame.jpg"
+    });
+
+    // Перемальовуємо список і очищуємо форму
+    renderGames(games);
+    addGameForm.reset();
+});
+
+// Фільтрація за кількістю гравців
+playerFilterSelect.addEventListener("change", () => {
+    const selected = playerFilterSelect.value;
+
+    if (selected === "all") {
+        renderGames(games);
+    } else {
+        const filtered = games.filter(game => fitsPlayers(game, Number(selected)));
+        renderGames(filtered);
+    }
+});
