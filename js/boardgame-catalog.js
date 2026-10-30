@@ -108,11 +108,17 @@ addGameForm.addEventListener("submit", (event) => {
         minPlayers: minPlayers,
         maxPlayers: maxPlayers,
         genre: genre,
-        image: "assets/img/FrostPunkBoardGame.jpg"
+        image: "assets/img/Placeholder.jpg"
     });
 
     // Перемальовуємо список і очищуємо форму
-    renderGames(games);
+    const selected = playerFilterSelect.value;
+    if (selected === "all") {
+        renderGames(games);
+    } else {
+        const filtered = games.filter(game => fitsPlayers(game, Number(selected)));
+        renderGames(filtered);
+    }
     addGameForm.reset();
 });
 
