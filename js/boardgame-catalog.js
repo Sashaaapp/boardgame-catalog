@@ -71,6 +71,12 @@ function renderGames(games){
         card.append(players);
         card.append(img);
 
+        if (game.completed !== undefined) {
+            const status = document.createElement('p');
+            status.textContent = game.completed ? "✅ Вже зіграно" : "⏳ Ще не зіграно";
+            card.append(status);
+        }
+
         listContainer.append(card);
     })
     countContainer.textContent = `Кількість ігор у списку: ${games.length}`;
@@ -133,3 +139,56 @@ playerFilterSelect.addEventListener("change", () => {
         renderGames(filtered);
     }
 });
+
+// Оголошення посилання на API, та елементи інтерфейсу
+const API_URL = "https://jsonplaceholder.typicode.com/todos?userId=1";
+const reloadApiBtn = document.querySelector("#reload-api-btn");
+const loadingStatus = document.querySelector("#loading-status");
+const apiError = document.querySelector("#api-error");
+
+// Функція отримання даних з JSON за посиланням
+async function loadData() {
+    loadingStatus.style.display = "block";
+    reloadApiBtn.disabled = true;
+    apiError.textContent = "";
+
+    // Спроба отримання даних з JSON
+    try {
+        const response = await fetch(API_URL)
+
+        // Перевірка відповіді, якщо отримана помилка, відбувається її виведення
+        if (!response.ok) {
+            throw new Error(`Помилка HTTP: статус ${response.status}`)
+        }
+
+        const data = await response.json()
+        console.log("Дані з API:", data);
+
+        // Адаптування отриманих даних під структуру каталогу (Додані тільки перші 6 для зручності)
+        const apiGames = data.slice(0, 20).map(item => ({
+            title: item.title,
+            completed: item.completed,
+            minPlayers: 1,
+            maxPlayers: 4,
+            genre: "Стратегії",
+            image: "assets/img/Placeholder.jpg"
+        }));
+
+        // Оновлення масиву games
+        games.length = 0;
+        games.push(...apiGames);
+        renderGames(games);
+
+    } catch (error) {
+        // Обробка помилки
+        apiError.textContent = "Не вдалося завантажити каталог ігор. Перевірте інтернет-з'єднання та спробуйте ще раз.";
+        console.error("Помилка під час запиту до API:", error);
+    } finally {
+        loadingStatus.style.display = "none";
+        reloadApiBtn.disabled = false;
+    }
+}
+
+reloadApiBtn.addEventListener("click", loadData);
+
+loadData();

@@ -67,6 +67,11 @@
         <section id="strategy-games" class="category_section">
             <h2 class="category_title">Стратегії</h2>
             <p id="games-count" class="games_in_category"></p>
+            <div style="text-align: center; margin-bottom: 1rem;">
+                <button type="button" id="reload-api-btn" class="filter_button" style="margin-top: 0;">Оновити дані з API</button>
+                <p id="loading-status" style="display: none; font-weight: bold;">Завантаження даних...</p>
+                <p id="api-error" class="error_message" aria-live="polite"></p>
+            </div>
             <div id="games-list" class="game_grid">
                 <article class="game_card">
                     <h3 class="game_title">Настільна гра "Фростпанк"</h3>
