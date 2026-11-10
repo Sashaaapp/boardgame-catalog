@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Каталог настільних ігор</title>
-    <script src="js/boardgame-catalog.js" defer></script>
+    <script type="text/babel" src="js/boardgame-catalog.js" defer></script>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <link rel="stylesheet" href="css/boardgame-catalog.css">
 </head>
 <body>
@@ -12,114 +15,62 @@
     <header class="header">
         <h1 class="header_title">Каталог настільних ігор</h1>
         <nav class="header_nav">
-            <a class="header_nav_a" href="#strategy-games">Стратегії</a>
-            <a class="header_nav_a" href="#fantasy-games">Фентезі</a>
+            <a class="header_nav_a" href="#games-catalog">Каталог</a>
         </nav>
     </header>
 
-    <main class="main">
+    <main id="main-section" class="main">
         <!--Блок фільтрів-->
-        <section class="filters">
-            <h2 class="filter_title">Фільтри та додавання ігор</h2>
-            <div class="filter_form">
-                <label class="filter_label" for="player-filter">Фільтр за кількістю гравців:</label>
-                <select class="filter_input" id="player-filter" name="player_filter">
-                    <option value="all">Усі ігри</option>
-                    <option value="1">1 гравець</option>
-                    <option value="2">2 гравці</option>
-                    <option value="3">3 гравці</option>
-                    <option value="4">4 гравці</option>
-                    <option value="5">5 гравців</option>
-                    <option value="6">6 гравців</option>
-                </select>
-            </div>
-            <form id="add-game-form" class="filter_form" action="#">
-                <div class="form_group">
-                    <label class="filter_label" for="game-title">Назва гри:</label>
-                    <input class="filter_input" type="text" id="game-title" name="title" placeholder="Напр. Дюна" required>
-                </div>
+<!--        <section class="filters">-->
+<!--            <h2 class="filter_title">Фільтри та додавання ігор</h2>-->
+<!--            <div class="filter_form">-->
+<!--                <label class="filter_label" for="player-filter">Фільтр за кількістю гравців:</label>-->
+<!--                <select class="filter_input" id="player-filter" name="player_filter">-->
+<!--                    <option value="all">Усі ігри</option>-->
+<!--                    <option value="1">1 гравець</option>-->
+<!--                    <option value="2">2 гравці</option>-->
+<!--                    <option value="3">3 гравці</option>-->
+<!--                    <option value="4">4 гравці</option>-->
+<!--                    <option value="5">5 гравців</option>-->
+<!--                    <option value="6">6 гравців</option>-->
+<!--                </select>-->
+<!--            </div>-->
+<!--            <form id="add-game-form" class="filter_form" action="#">-->
+<!--                <div class="form_group">-->
+<!--                    <label class="filter_label" for="game-title">Назва гри:</label>-->
+<!--                    <input class="filter_input" type="text" id="game-title" name="title" placeholder="Напр. Дюна" required>-->
+<!--                </div>-->
 
-                <div class="form_group">
-                    <label class="filter_label" for="min-players">Мін. гравців:</label>
-                    <input class="filter_input" type="number" id="min-players" name="minPlayers" min="1" max="20" placeholder="1" required>
-                </div>
+<!--                <div class="form_group">-->
+<!--                    <label class="filter_label" for="min-players">Мін. гравців:</label>-->
+<!--                    <input class="filter_input" type="number" id="min-players" name="minPlayers" min="1" max="20" placeholder="1" required>-->
+<!--                </div>-->
 
-                <div class="form_group">
-                    <label class="filter_label" for="max-players">Макс. гравців:</label>
-                    <input class="filter_input" type="number" id="max-players" name="maxPlayers" min="1" max="20" placeholder="4" required>
-                </div>
+<!--                <div class="form_group">-->
+<!--                    <label class="filter_label" for="max-players">Макс. гравців:</label>-->
+<!--                    <input class="filter_input" type="number" id="max-players" name="maxPlayers" min="1" max="20" placeholder="4" required>-->
+<!--                </div>-->
 
-                <div class="form_group">
-                    <label class="filter_label" for="game-genre">Жанр:</label>
-                    <select class="filter_input" id="game-genre" name="genre" required>
-                        <option value="Стратегії">Стратегії</option>
-                        <option value="Фентезі">Фентезі</option>
-                        <option value="Сімейні">Сімейні</option>
-                    </select>
-                </div>
+<!--                <div class="form_group">-->
+<!--                    <label class="filter_label" for="game-genre">Жанр:</label>-->
+<!--                    <select class="filter_input" id="game-genre" name="genre" required>-->
+<!--                        <option value="Стратегії">Стратегії</option>-->
+<!--                        <option value="Фентезі">Фентезі</option>-->
+<!--                        <option value="Сімейні">Сімейні</option>-->
+<!--                    </select>-->
+<!--                </div>-->
 
-                <button type="submit" class="filter_button">Додати гру</button>
-                <p id="form-error" class="error_message" aria-live="polite"></p>
-            </form>
-        </section>
+<!--                <button type="submit" class="filter_button">Додати гру</button>-->
+<!--                <p id="form-error" class="error_message" aria-live="polite"></p>-->
+<!--            </form>-->
+<!--        </section>-->
 
-        <!--Список карток ігор-->
-        <section id="strategy-games" class="category_section">
-            <h2 class="category_title">Стратегії</h2>
-            <p id="games-count" class="games_in_category"></p>
-            <div style="text-align: center; margin-bottom: 1rem;">
-                <button type="button" id="reload-api-btn" class="filter_button" style="margin-top: 0;">Оновити дані з API</button>
-                <p id="loading-status" style="display: none; font-weight: bold;">Завантаження даних...</p>
-                <p id="api-error" class="error_message" aria-live="polite"></p>
-            </div>
-            <div id="games-list" class="game_grid">
-                <article class="game_card">
-                    <h3 class="game_title">Настільна гра "Фростпанк"</h3>
-                    <span class="player_badge">👥 1-4 гравці</span>
-                    <img class="game_img" src="assets/img/FrostPunkBoardGame.jpg" alt="Обкладинка настільної гри 'Фростпанк'">
-                </article>
-                <article class="game_card">
-                    <h3 class="game_title">Тераформування "Марса"</h3>
-                    <span class="player_badge">👥 1-5 гравці</span>
-                    <img class="game_img" src="assets/img/TerraformingMars.jpg" alt="Обкладинка настільної гри 'Тераформування Марса'">
-                </article>
-                <article class="game_card">
-                    <h3 class="game_title">Настільна гра "Монополія"</h3>
-                    <span class="player_badge">👥 2-6 гравці</span>
-                    <img class="game_img" src="assets/img/MonopolyBoardGame.jpg" alt="Обкладинка настільної гри 'Монополія'">
-                </article>
-                <article class="game_card">
-                    <h3 class="game_title">Настільна гра "Catan"</h3>
-                    <span class="player_badge">👥 3-4 гравці</span>
-                    <img class="game_img" src="assets/img/KATANBoardGame.jpg" alt="Обкладинка настільної гри 'Catan'">
-                </article>
-            </div>
-        </section>
-        <section id="fantasy-games" class="category_section">
-            <h2 class="category_title">Фентезі</h2>
-            <div  class="game_grid">
-                <article class="game_card">
-                    <h3 class="game_title">Настільна гра "Коса"</h3>
-                    <span class="player_badge">👥‍ 1-5 гравці</span>
-                    <img class="game_img" src="assets/img/KosaBoardGame.jpg" alt="Обкладинка настільної гри 'Коса: Піднесення Фенріса'">
-                </article>
-                <article class="game_card">
-                    <h3 class="game_title">Настільна гра "Володар Перснів"</h3>
-                    <span class="player_badge">👥 1-5 гравці</span>
-                    <img class="game_img" src="assets/img/LotR.jpg" alt="Обкладинка настільної гри 'Володар Перснів'">
-                </article>
-                <article class="game_card">
-                    <h3 class="game_title">Настільна гра "Відьмак"</h3>
-                    <span class="player_badge">👥 1-5 гравці</span>
-                    <img class="game_img" src="assets/img/TheWitcherBoardGame.jpg" alt="Обкладинка настільної гри 'Відьмак'">
-                </article>
-                <article class="game_card">
-                    <h3 class="game_title">Настільна гра "DARKTIDE"</h3>
-                    <span class="player_badge">👥 1-4 гравці</span>
-                    <img class="game_img" src="assets/img/DARKTIDEBoardGame.jpg" alt="Обкладинка настільної гри 'DARKTIDE'">
-                </article>
-            </div>
-        </section>
+<!--        &lt;!&ndash;Список карток ігор&ndash;&gt;-->
+<!--        <section id="games-catalog" class="category_section">-->
+<!--            <h2 class="category_title">Каталог</h2>-->
+<!--            <div id="games-list" class="game_grid">-->
+<!--            </div>-->
+<!--        </section>-->
     </main>
 <!--Підвал-->
     <footer class="footer">
