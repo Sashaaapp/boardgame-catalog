@@ -2,6 +2,7 @@ const LS_Key = 'boardGamesData';
 const DB_Name = 'catalogDB';
 const DB_Ver = 1;
 const STORE_Name = 'games';
+const LS_Migrated_Key = 'boardGamesMigrated';
 
 function saveToLocalStorage(items) {
     localStorage.setItem(LS_Key, JSON.stringify(items))
@@ -9,7 +10,7 @@ function saveToLocalStorage(items) {
 
 function loadFromLocalStorage() {
     try {
-        const raw = localStorage.getItem('boardGamesData');
+        const raw = localStorage.getItem(LS_Key);
         return raw ? JSON.parse(raw) : [];
     } catch (error) {
         console.error('Пошкоджені дані в localStorage:', error);
@@ -101,12 +102,15 @@ function App() {
     ];
 
     const [items, setItems] = React.useState([]);
+    const [dbError, setDbError] = React.useState("");
 
     React.useEffect(() => {
         async function loadData() {
             try {
                 let dbData = await getAllItems();
-                if (dbData.length === 0) {
+                const isMigrated = localStorage.getItem(LS_Migrated_Key) === 'true';
+
+                if (dbData.length === 0 && !isMigrated) {
                     let localData = loadFromLocalStorage()
 
                     if (!localData || localData.length === 0) {
@@ -117,13 +121,18 @@ function App() {
                         await addItem(game);
                     }
                     saveToLocalStorage(localData);
+                    localStorage.setItem(LS_Migrated_Key, 'true');
 
                     dbData = localData;
+                } else if (!isMigrated) {
+                    localStorage.setItem(LS_Migrated_Key, 'true');
                 }
 
                 setItems(dbData);
             } catch (error) {
                 console.error("Помилка завантаження даних:", error);
+                setDbError("Не вдалося відкрити IndexedDB (можливо, увімкнено приватний режим). Показано дані з localStorage.");
+                setItems(loadFromLocalStorage());
             }
         }
 
@@ -131,32 +140,44 @@ function App() {
     }, []);
 
     async function filterByGenre(selectedGenre) {
-        const allDbGames = await getAllItems();
-        const filtered = allDbGames.filter(game => game.genre === selectedGenre);
-        setItems(filtered)
+        try {
+            const allDbGames = await getAllItems();
+            const filtered = allDbGames.filter(game => game.genre === selectedGenre);
+            setItems(filtered);
+        } catch (error) {
+            setDbError("Помилка читання даних із IndexedDB.");
+        }
     }
 
     async function togglePlayed(selectedId) {
-        const allDbGames = await getAllItems();
-        const targetGame = allDbGames.find(game => game.id === selectedId);
-        if (!targetGame) {
-            return;
+        try {
+            const allDbGames = await getAllItems();
+            const targetGame = allDbGames.find(game => game.id === selectedId);
+            if (!targetGame) {
+                return;
+            }
+
+            const updatedGame = { ...targetGame, played: !targetGame.played };
+            await addItem(updatedGame);
+
+            const newList = allDbGames.map(game => game.id === selectedId ? updatedGame : game);
+            setItems(newList);
+            saveToLocalStorage(newList);
+        } catch (error) {
+            setDbError("Не вдалося оновити статус гри в IndexedDB.");
         }
-
-        const updatedGame = {...targetGame, played: !targetGame.played };
-        await addItem(updatedGame);
-
-        const newList = allDbGames.map(game => game.id === id ? updatedGame : game);
-        setItems(newList);
-        saveToLocalStorage(newList);
     }
 
     async function deleteGame(id) {
-        await deleteItem(id);
+        try {
+            await deleteItem(id);
 
-        const allDbGames = await getAllItems();
-        setItems(allDbGames);
-        saveToLocalStorage(allDbGames);
+            const allDbGames = await getAllItems();
+            setItems(allDbGames);
+            saveToLocalStorage(allDbGames);
+        } catch (error) {
+            setDbError("Не вдалося видалити гру з IndexedDB.");
+        }
     }
 
     async function addGame(add) {
@@ -183,13 +204,15 @@ function App() {
             image: "assets/img/Placeholder.jpg"
         };
 
-        await addItem(newGame);
-        const allDbGames = await getAllItems();
-        setItems(allDbGames);
-
-        saveToLocalStorage(allDbGames);
-
-        form.reset();
+        try {
+            await addItem(newGame);
+            const allDbGames = await getAllItems();
+            setItems(allDbGames);
+            saveToLocalStorage(allDbGames);
+            form.reset();
+        } catch (error) {
+            setDbError("Не вдалося зберегти нову гру в IndexedDB.");
+        }
     }
 
     return (
@@ -228,6 +251,11 @@ function App() {
 
             <section id="games-catalog" className="category_section">
                 <h2 className="category_title">Каталог</h2>
+                {dbError && (
+                    <p className="error_message" style={{ textAlign: "center", marginBottom: "15px" }} role="alert">
+                        {dbError}
+                    </p>
+                )}
                 <div style={{ textAlign: "center", marginBottom: "15px" }}>
                     <button className="filter_button" onClick={async () => setItems(await getAllItems())}>
                         Показати всі жанри
