@@ -70,9 +70,16 @@ async function deleteItem(id) {
     });
 }
 
-function GameCard({ id, title, minPlayers, maxPlayers, genre, played, image, filter, onTogglePlayed, onDelete}) {
+function GameCard({ id, title, minPlayers, maxPlayers, genre, played, image, filter, onTogglePlayed, onDelete, isFeatured, isAnimationPaused}) {
+    const cardClass = [
+        "game_card",
+        isFeatured ? "game_card--featured" : "",
+        isFeatured && isAnimationPaused ? "game_card--paused" : ""
+    ].filter(Boolean).join(" ");
+
     return (
-        <article className="game_card">
+        <article className={cardClass}>
+            {isFeatured && <span className="featured_badge">⭐ Гра дня</span>}
             <h3 className="game_title">Настільна гра "{title}"</h3>
             <span className="player_badge">👥 {minPlayers}-{maxPlayers} гравці</span>
             <p className="game_genre" onClick={() => filter(genre)}>Жанр: {genre}</p>
@@ -103,6 +110,11 @@ function App() {
 
     const [items, setItems] = React.useState([]);
     const [dbError, setDbError] = React.useState("");
+
+    // Стани 12 практикум
+    const [isFiltering, setIsFiltering] = React.useState(false);
+    const [isAnimationPaused, setIsAnimationPaused] = React.useState(false);
+    const filterTimerRef = React.useRef(null);
 
     React.useEffect(() => {
         async function loadData() {
@@ -139,11 +151,41 @@ function App() {
         loadData();
     }, []);
 
+    // Динамічний вибір «Гри дня» з реальних даних каталогу
+    function getGameOfTheDayId(list) {
+        if (!list || list.length === 0) return null;
+        const unplayed = list.filter(game => !game.played);
+        const pool = unplayed.length > 0 ? unplayed : list;
+        const dayIndex = new Date().getDate() % pool.length;
+        return pool[dayIndex].id;
+    }
+
+    // Плавний CSS transition при зміні фільтра списку
+    function updateListWithTransition(newList) {
+        if (filterTimerRef.current) {
+            clearTimeout(filterTimerRef.current);
+        }
+        setIsFiltering(true);
+        filterTimerRef.current = setTimeout(() => {
+            setItems(newList);
+            setIsFiltering(false);
+        }, 220);
+    }
+
     async function filterByGenre(selectedGenre) {
         try {
             const allDbGames = await getAllItems();
             const filtered = allDbGames.filter(game => game.genre === selectedGenre);
-            setItems(filtered);
+            updateListWithTransition(filtered);
+        } catch (error) {
+            setDbError("Помилка читання даних із IndexedDB.");
+        }
+    }
+
+    async function showAllGenres() {
+        try {
+            const allDbGames = await getAllItems();
+            updateListWithTransition(allDbGames);
         } catch (error) {
             setDbError("Помилка читання даних із IndexedDB.");
         }
@@ -215,6 +257,8 @@ function App() {
         }
     }
 
+    const featuredGameId = getGameOfTheDayId(items);
+
     return (
         <>
             <section className="filters">
@@ -256,12 +300,19 @@ function App() {
                         {dbError}
                     </p>
                 )}
-                <div style={{ textAlign: "center", marginBottom: "15px" }}>
-                    <button className="filter_button" onClick={async () => setItems(await getAllItems())}>
+                <div style={{ display: "flex", gap: "10px", justifyContent: "center", flexWrap: "wrap", marginBottom: "15px" }}>
+                    <button type="button" className="filter_button" onClick={showAllGenres}>
                         Показати всі жанри
                     </button>
+                    <button
+                        type="button"
+                        className="filter_button"
+                        onClick={() => setIsAnimationPaused(prev => !prev)}
+                    >
+                        {isAnimationPaused ? "▶ Відновити анімацію" : "⏸ Пауза анімації"}
+                    </button>
                 </div>
-                <div id="games-list" className="game_grid">
+                <div id="games-list" className={`game_grid ${isFiltering ? "game_grid--filtering" : ""}`}>
                     {items.map(item => (
                         <GameCard
                             key={item.id}
@@ -275,6 +326,8 @@ function App() {
                             filter={filterByGenre}
                             onTogglePlayed={togglePlayed}
                             onDelete={deleteGame}
+                            isFeatured={item.id === featuredGameId}
+                            isAnimationPaused={isAnimationPaused}
                         />
                     ))}
                 </div>

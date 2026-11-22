@@ -213,10 +213,6 @@ img {
     display: inline-block;
 }
 
-.game_genre {
-
-}
-
 .game_img {
     max-width: 100%;
     height: 220px;
@@ -259,4 +255,49 @@ img {
     .game_grid {
         grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     }
+}
+
+
+/*Практична 12*/
+
+@keyframes pulseGameOfDay {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(211, 47, 47, 0.45);
+    }
+    50% {
+        transform: scale(1.03);
+        box-shadow: 0 0 18px 4px rgba(211, 47, 47, 0.35);
+    }
+}
+
+.game_card--featured {
+    border: 2px solid #d32f2f;
+    animation: pulseGameOfDay 1.8s ease-in-out infinite;
+    will-change: transform;
+}
+
+.game_card--featured:hover,
+.game_card--paused {
+    animation-play-state: paused;
+}
+
+.featured_badge {
+    display: inline-block;
+    background-color: #d32f2f;
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 12px;
+    margin-bottom: 6px;
+}
+
+.game_grid {
+    transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.game_grid--filtering {
+    opacity: 0;
+    transform: translateY(8px);
 }
